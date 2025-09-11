@@ -14,7 +14,7 @@ const CreateTask = () => {
     e.preventDefault()
 
     const newTask = {
-      id: Date.now(), // unique ID
+      id: Date.now(),
       taskTitle,
       taskDescription,
       taskDate,
@@ -26,7 +26,7 @@ const CreateTask = () => {
     }
 
     const updatedData = userData.map((emp) => {
-      if (emp.id === parseInt(assignTo)) { // match by ID
+      if (emp.id === parseInt(assignTo)) {
         return {
           ...emp,
           tasks: [...emp.tasks, newTask],
@@ -50,19 +50,26 @@ const CreateTask = () => {
   }
 
   return (
-    <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
+    <div className="p-6 bg-[#1e293b]/80 mt-5 rounded-xl shadow-lg">
+      <h2 className="text-xl font-semibold mb-5 text-emerald-400">
+        📝 Create Task
+      </h2>
+
       <form
         onSubmit={submitHandler}
-        className="flex flex-wrap w-full items-start justify-between"
+        className="flex flex-wrap w-full items-start justify-between gap-6"
       >
-        <div className="w-1/2">
+        {/* Left Section */}
+        <div className="w-full md:w-1/2 space-y-4">
           {/* Task Title */}
           <div>
-            <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
+            <label className="block text-sm text-gray-300 mb-1">
+              Task Title
+            </label>
             <input
               value={taskTitle}
               onChange={(e) => setTaskTitle(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
+              className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
               type="text"
               placeholder="Make a UI design"
               required
@@ -71,11 +78,11 @@ const CreateTask = () => {
 
           {/* Date */}
           <div>
-            <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
+            <label className="block text-sm text-gray-300 mb-1">Date</label>
             <input
               value={taskDate}
               onChange={(e) => setTaskDate(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
+              className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
               type="date"
               required
             />
@@ -83,11 +90,13 @@ const CreateTask = () => {
 
           {/* Assign To */}
           <div>
-            <h3 className="text-sm text-gray-300 mb-0.5">Assign to</h3>
+            <label className="block text-sm text-gray-300 mb-1">
+              Assign To
+            </label>
             <select
               value={assignTo}
               onChange={(e) => setAssignTo(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-[#111] border border-gray-400 mb-4"
+              className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
               required
             >
               <option value="">Select Employee</option>
@@ -101,29 +110,40 @@ const CreateTask = () => {
 
           {/* Category */}
           <div>
-            <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
+            <label className="block text-sm text-gray-300 mb-1">
+              Category
+            </label>
             <input
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
+              className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
               type="text"
-              placeholder="design, dev, etc"
+              placeholder="Design, Dev, etc"
               required
             />
           </div>
         </div>
 
-        {/* Description */}
-        <div className="w-2/5 flex flex-col items-start">
-          <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
-          <textarea
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            className="w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border border-gray-400"
-            required
-          ></textarea>
-          <button className="bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full">
-            Create Task
+        {/* Right Section - Description */}
+        <div className="w-full md:w-2/5 flex flex-col space-y-4">
+          <div>
+            <label className="block text-sm text-gray-300 mb-1">
+              Description
+            </label>
+            <textarea
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
+              className="w-full h-44 p-3 rounded-lg bg-[#0f172a] border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition resize-none"
+              placeholder="Explain the task in detail..."
+              required
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-emerald-500 py-3 px-5 rounded-lg font-medium hover:bg-emerald-600 hover:shadow-md transition w-full"
+          >
+            ➕ Create Task
           </button>
         </div>
       </form>

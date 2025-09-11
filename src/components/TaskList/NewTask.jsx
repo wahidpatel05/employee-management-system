@@ -1,26 +1,42 @@
 import React from 'react'
+import { Calendar, PlusCircle } from 'lucide-react'
 
 const NewTask = ({ data, onAccept }) => {
-    return (
-        <div className='flex-shrink-0 h-full w-[300px] p-5 bg-green-400 rounded-xl'>
-            <div className='flex justify-between items-center'>
-                <h3 className='bg-red-600 text-sm px-3 py-1 rounded'>{data.category}</h3>
-                <h4 className='text-sm'>{data.taskDate}</h4>
-            </div>
-            <h2 className='mt-5 text-2xl font-semibold'>{data.taskTitle}</h2>
-            <p className='text-sm mt-2'>
-                {data.taskDescription}
-            </p>
-            <div className='mt-6'>
-                <button
-                    onClick={onAccept}
-                    className='bg-blue-500 hover:bg-blue-600 rounded font-medium py-1 px-2 text-xs w-full'
-                >
-                    Accept Task
-                </button>
-            </div>
+  return (
+    <div className="flex-shrink-0 h-full w-[300px] p-5 rounded-xl bg-[#0f172a] border border-slate-700 shadow-md hover:shadow-lg transition">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h3 className="bg-emerald-600/30 text-emerald-400 text-xs font-medium px-3 py-1 rounded-full">
+          {data.category}
+        </h3>
+        <div className="flex items-center gap-1 text-gray-400 text-xs">
+          <Calendar size={14} />
+          {data.taskDate}
         </div>
-    )
+      </div>
+
+      {/* Title */}
+      <h2 className="mt-5 text-lg font-semibold text-white line-clamp-1">
+        {data.taskTitle}
+      </h2>
+
+      {/* Description */}
+      <p className="text-sm mt-2 text-gray-400 line-clamp-3">
+        {data.taskDescription}
+      </p>
+
+      {/* Accept Button */}
+      <div className="mt-6">
+        <button
+          onClick={onAccept}
+          className="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 transition rounded-lg font-medium py-2 text-sm text-white shadow"
+        >
+          <PlusCircle size={16} />
+          Accept Task
+        </button>
+      </div>
+    </div>
+  )
 }
 
 export default NewTask
