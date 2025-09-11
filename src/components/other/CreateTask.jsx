@@ -1,64 +1,128 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../../context/AuthProvider'
 
-function CreateTask() {
+const CreateTask = () => {
+  const [userData, setUserData] = useContext(AuthContext)
+
+  const [taskTitle, setTaskTitle] = useState('')
+  const [taskDescription, setTaskDescription] = useState('')
+  const [taskDate, setTaskDate] = useState('')
+  const [assignTo, setAssignTo] = useState('')
+  const [category, setCategory] = useState('')
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+
+    const newTask = {
+      id: Date.now(), // unique ID
+      taskTitle,
+      taskDescription,
+      taskDate,
+      category,
+      active: false,
+      newTask: true,
+      failed: false,
+      completed: false,
+    }
+
+    const updatedData = userData.map((emp) => {
+      if (emp.id === parseInt(assignTo)) { // match by ID
+        return {
+          ...emp,
+          tasks: [...emp.tasks, newTask],
+          taskCounts: {
+            ...emp.taskCounts,
+            newTask: emp.taskCounts.newTask + 1,
+          },
+        }
+      }
+      return emp
+    })
+
+    setUserData(updatedData)
+
+    // reset form
+    setTaskTitle('')
+    setCategory('')
+    setAssignTo('')
+    setTaskDate('')
+    setTaskDescription('')
+  }
+
   return (
-    <div className="h-screen flex items-center justify-center">
-      <form className="flex flex-wrap gap-5 bg-white/10 backdrop-blur-md p-10 rounded-lg items-start justify-between w-full max-w-4xl shadow-lg">
-        {/* Left side */}
-        <div className="w-full md:w-1/2 space-y-5">
+    <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
+      <form
+        onSubmit={submitHandler}
+        className="flex flex-wrap w-full items-start justify-between"
+      >
+        <div className="w-1/2">
+          {/* Task Title */}
           <div>
-            <h3 className="mb-2 font-semibold">Task Title</h3>
+            <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
             <input
+              value={taskTitle}
+              onChange={(e) => setTaskTitle(e.target.value)}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
               type="text"
               placeholder="Make a UI design"
-              className="w-full p-2 rounded-md bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
+          {/* Date */}
           <div>
-            <h3 className="mb-2 font-semibold">Date</h3>
+            <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
             <input
+              value={taskDate}
+              onChange={(e) => setTaskDate(e.target.value)}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
               type="date"
-              className="w-full p-2 rounded-md bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
+          {/* Assign To */}
           <div>
-            <h3 className="mb-2 font-semibold">Assign to</h3>
-            <input
-              type="text"
-              placeholder="Employee Name"
-              className="w-full p-2 rounded-md bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <h3 className="text-sm text-gray-300 mb-0.5">Assign to</h3>
+            <select
+              value={assignTo}
+              onChange={(e) => setAssignTo(e.target.value)}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-[#111] border border-gray-400 mb-4"
+              required
+            >
+              <option value="">Select Employee</option>
+              {userData.map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.firstName}
+                </option>
+              ))}
+            </select>
           </div>
 
+          {/* Category */}
           <div>
-            <h3 className="mb-2 font-semibold">Category</h3>
+            <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
             <input
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border border-gray-400 mb-4"
               type="text"
               placeholder="design, dev, etc"
-              className="w-full p-2 rounded-md bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
         </div>
 
-        {/* Right side (Description only) */}
-        <div className="w-full md:w-1/2 space-y-5">
-          <div>
-            <h3 className="mb-2 font-semibold">Description</h3>
-            <textarea
-              placeholder="Write task details here..."
-              className="w-full h-40 p-2 rounded-md bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
-          </div>
-        </div>
-
-        {/* Submit button full width (unchanged) */}
-        <div className="w-full flex justify-end">
-          <button
-            type="submit"
-            className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 font-semibold shadow-md"
-          >
+        {/* Description */}
+        <div className="w-2/5 flex flex-col items-start">
+          <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
+          <textarea
+            value={taskDescription}
+            onChange={(e) => setTaskDescription(e.target.value)}
+            className="w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border border-gray-400"
+            required
+          ></textarea>
+          <button className="bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full">
             Create Task
           </button>
         </div>
