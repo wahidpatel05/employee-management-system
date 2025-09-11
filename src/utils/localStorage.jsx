@@ -33,7 +33,7 @@ const defaultEmployees = [
 
 // Default admin
 const defaultAdmin = [
-  { id: 1, email: "admin@example.com", password: "123" },
+  { id: 1, email: "admin@example.com", password: "Wahid@p12" },
 ];
 
 // Initialize localStorage if not present
